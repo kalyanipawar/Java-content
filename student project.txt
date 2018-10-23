@@ -1,0 +1,256 @@
+//Student.java
+package com.capgemini.beans;
+
+public class Student {
+
+	private int rollNumber;
+
+	private String name;
+	
+	private int noOfCourses;
+	
+	private String[] courseNames;
+
+	public Student(int rollNumber, String name, int noOfCourses, String[] courseNames) {
+
+		super();
+
+		this.rollNumber = rollNumber;
+
+		this.name = name;
+		
+		this.noOfCourses=noOfCourses;
+		
+		this.courseNames = courseNames;
+
+	}
+
+	public int getRollNumber() {
+
+		return rollNumber;
+
+	}
+
+	public void setRollNumber(int rollNumber) {
+
+		this.rollNumber = rollNumber;
+
+	}
+
+	public String getName() {
+
+		return name;
+
+	}
+
+	public void setName(String name) {
+
+		this.name = name;
+
+	}
+	
+	public int getNoOfCourses() {
+
+		return noOfCourses;
+
+	}
+
+	public void setNoOfCourses(int noOfCourses) {
+
+		this.noOfCourses = noOfCourses;
+
+	}
+
+	
+	public String[] getCourseNames() {
+
+		return courseNames;
+
+	}
+
+	public void setCourseNames(String[] courseNames) {
+
+		this.courseNames = courseNames;
+
+	}
+
+
+}
+
+
+//studentSchedular.java
+package com.capgemini.service;
+
+import com.capgemini.beans.Student;
+
+public class StudentSchedular {
+
+	private Student[] students = new Student[10];
+
+	private int counterStudent;
+
+	public String addStudent(int rollNumber,String name, int noOfCourses, String[] courseNames)
+
+	{		
+
+		students[counterStudent++]=new Student(rollNumber,name, noOfCourses, courseNames);
+
+		return "Student added successfully";		
+
+	}
+
+		public void showAllStudents()
+
+	{
+		
+
+		for(int i=0;i<counterStudent;i++)
+
+		{
+
+			
+			System.out.println(students[i].getRollNumber());
+
+			System.out.println(students[i].getName());
+			
+			System.out.println(students[i].getNoOfCourses());
+			
+			for(int j=0;j<students[i].getCourseNames().length;j++)
+			{
+				System.out.println(students[i].getCourseNames()[j]);
+			}
+
+		}
+
+	}
+		public String studentByRollNumber()
+		{
+			String data="";
+			for(int i=0;i<counterStudent;i++)
+			{
+				data+= "Roll Number ="+students[i].getRollNumber();
+				data+= "Name ="+students[i].getName();
+			}
+			return data;
+		}
+public String studentsBySubjects()
+{
+	String data="";
+	for(int i=0;i<counterStudent;i++)
+	{
+		data+= "Name ="+students[i].getName();	
+		data+= "Subjects =";
+		for(int j=0;j<students[i].getCourseNames().length;j++)
+		{
+		data+= students[i].getCourseNames()[j]+" ";
+		}
+	}
+	return data;
+}
+}
+
+//Admin.java
+package com.capgemini.view;
+import java.util.Scanner;
+
+import com.capgemini.service.StudentSchedular;
+
+public class Admin {
+
+	private static Scanner sc=new Scanner(System.in);
+
+	private static StudentSchedular studSch = new StudentSchedular();
+
+	public static void main(String[] args) {
+
+		showMenu();
+
+	}
+
+	private static void showMenu() {
+		
+		int choice;
+
+		while(true)
+
+		{
+
+			System.out.println("1.add student");
+
+			System.out.println("2.show all students");
+
+			System.out.println("3.studentsbyrollnumber");
+			
+			System.out.println("4.studentsbysubjects");
+
+			System.out.println("Enter your choice");
+
+			choice=sc.nextInt();
+
+			switch(choice)
+
+			{
+
+			case 1:addStudentDetails();
+
+			       break;
+
+			case 2:showAllStudents();
+
+			        break;
+			        
+			case 3:studentByRollNumber();
+			break;
+			
+			case 4: studentBySubject();
+			break;
+			
+			 default:System.out.println("Sorry entered wrong choice");
+
+			 }
+			
+		}
+
+	}
+	
+	private static void studentBySubject()
+	{
+		System.out.println(studSch.studentsBySubjects());
+	}
+	
+	private static void studentByRollNumber()
+	{
+		System.out.println(studSch.studentByRollNumber());
+	}
+	private static void showAllStudents() {
+
+		studSch.showAllStudents();
+		
+	}
+	
+	private static void addStudentDetails() {
+
+		System.out.println("Enter roll number");
+
+		int rollNumber=sc.nextInt();
+
+		System.out.println("Enter name");
+
+		String name = sc.next();
+		System.out.println("Enter no of courses");
+
+		int noOfCourses = sc.nextInt();		
+		System.out.println("Enter course name");
+
+		String[] courseNames = new String[noOfCourses];
+		
+		for(int i=0;i<courseNames.length;i++)
+		{
+			courseNames[i]=sc.next();
+		}
+
+		System.out.println(studSch.addStudent(rollNumber, name, noOfCourses, courseNames));
+
+	}
+
+}
